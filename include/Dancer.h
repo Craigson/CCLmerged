@@ -24,6 +24,7 @@ public:
     void loadJointData(const std::string& jsonData);
     void render();
     void update(const int& FRAME_COUNT);
+    int getSize();
     
 private:
     

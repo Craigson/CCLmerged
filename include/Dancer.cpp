@@ -51,7 +51,9 @@ Dancer::Dancer(const std::string& fileName, const gl::GlslProgRef& shader)
     
 }
 
-
+int Dancer::getSize(){
+    return jointList[0].jointPositions.size();
+}
 
 void Dancer::loadJointData(const std::string& jsonData )
 {
@@ -62,6 +64,8 @@ void Dancer::loadJointData(const std::string& jsonData )
 
 void Dancer::update(const int& FRAME_COUNT)
 {
+    updatedJointPositions.clear();
+    
     glm::vec3 *newPositions = (glm::vec3*)mInstanceDataVbo->mapReplace();
     
     for( int i = 0; i < jointList.size(); ++i ) {
@@ -72,7 +76,10 @@ void Dancer::update(const int& FRAME_COUNT)
         
         vec3 newPos(vec3(instanceX,instanceY, instanceZ)); //CREATE A NEW VEC3 FOR UPDATING THE VBO
         
-        updatedJointPositions[i] = newPos;
+        updatedJointPositions.push_back(newPos);
+        
+    //    std::cout<< updatedJointPositions.size() << std::endl;
+       //
         
     }
     
@@ -87,3 +94,6 @@ void Dancer::update(const int& FRAME_COUNT)
 
 }
 
+void Dancer::render(){
+    mSphereBatch->drawInstanced( jointList.size() );
+}

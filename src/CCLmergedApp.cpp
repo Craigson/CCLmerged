@@ -80,7 +80,19 @@ void CCLmergedApp::mouseDrag( MouseEvent event )
 
 void CCLmergedApp::update()
 {
-    FRAME_COUNT++;
+    TOTAL_FRAMES = dancer1.getSize();
+    
+    std::cout<< dancer1.getSize() << std::endl;
+    
+    dancer1.update(FRAME_COUNT);
+    
+//    //MANUALLY INCREMENT THE FRAME, IF THE FRAME_COUNT EXCEEDS TOTAL FRAMES, RESET THE COUNTER
+    if (FRAME_COUNT < TOTAL_FRAMES)
+    {
+        FRAME_COUNT += 1;
+    } else {
+        FRAME_COUNT = 0;
+    }
 }
 
 
@@ -97,6 +109,7 @@ void CCLmergedApp::draw()
     
     renderScene();
     
+    dancer1.render();
 }
 
 //------------------- SETUP THE ENVIRONMENT / GRID -----------------------
@@ -144,9 +157,9 @@ void CCLmergedApp::setupEnviron( int xSize, int zSize, int spacing )
 void CCLmergedApp::renderScene()
 {
     
-    gl::pushMatrices();
+   // gl::pushMatrices();
     mGridMesh->draw();
-    gl::popMatrices();
+   // gl::popMatrices();
 }
 
 
