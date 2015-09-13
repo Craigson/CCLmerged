@@ -73,12 +73,12 @@ std::vector<CCL_MocapJoint> loadMotionCaptureFromJson(const ci::fs::path &file)
 };
 
 
-std::vector<CCL_MocapJoint> loadMotionCaptureFromSite(const ci::Url &url, int skip)
+std::vector<CCL_MocapJoint> loadMotionCaptureFromSite( int skip)
 {
   vector<CCL_MocapJoint> mJoints;
   try{
       //LOAD JSON FILE CONTAINING UUIDs of each stream under specified channel
-      const JsonTree json( loadUrl(url) );
+      const JsonTree json( loadUrl(URL_STREAM_JSON) );
 
       //LOOP THROUGH STREAMS
       for( auto &stream : json.getChildren() ){
@@ -93,7 +93,7 @@ std::vector<CCL_MocapJoint> loadMotionCaptureFromSite(const ci::Url &url, int sk
 
       // create json file
       Jzon::Object root;
-      root.Add("URL", url.str());
+      root.Add("URL", URL_STREAM_JSON);
       Jzon::Array joints;
 
       for( int i = 0 ; i < mJoints.size() ; i++){

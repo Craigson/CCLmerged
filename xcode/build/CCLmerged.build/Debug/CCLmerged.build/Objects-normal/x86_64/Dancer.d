@@ -424,4 +424,6 @@ dependencies: \
   ../../../Cinder/include/boost/intrusive/detail/list_iterator.hpp \
   /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLmerged/xcode/CCL_MocapData.h \
   /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLmerged/xcode/Jzon.h \
-  ../include/Ribbon.h ../../../Cinder/include/cinder/Easing.h
+  ../include/Ribbon.h \
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLmerged/xcode/Trail.h \
+  ../../../Cinder/include/cinder/Easing.h

@@ -82,7 +82,7 @@ void CCLmergedApp::update()
 {
     TOTAL_FRAMES = dancer1.getSize();
     
-    std::cout<< dancer1.getSize() << std::endl;
+  //  std::cout<< dancer1.getSize() << std::endl;
     
     dancer1.update(FRAME_COUNT);
     

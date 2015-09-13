@@ -27,7 +27,12 @@ void CCL_MocapJoint::addUUID(string title,const string uuid){
             string temp = stream["frames"][i].getValue();
             if( temp == "null" || temp.size() == 0){
    //             cout << "[FrameAt:"<<i<< ","<<temp<<endl;
-                xPositions.push_back(NULL_POINT);
+                if ( i!=0 ){
+                std::string prev = stream["frames"][i-1].getValue();
+                xPositions.push_back(xPositions[i-1]);
+                } else {
+                    xPositions.push_back(stof(temp));
+                }
 
             }else{
   //              cout << "[FrameAt:"<<i<< ","<<temp<<endl;
@@ -44,9 +49,14 @@ void CCL_MocapJoint::addUUID(string title,const string uuid){
         for (int i = 0 ; i < stream["frames"].getNumChildren() ; i++){
             string temp = stream["frames"][i].getValue();
             if( temp == "null" || temp.size() == 0){
-                //             cout << "[FrameAt:"<<i<< ","<<temp<<endl;
-                yPositions.push_back(NULL_POINT);
-                
+                //             cout << "[FrameAt:"<<i<<
+                if ( i!=0 ){
+                std::string prev = stream["frames"][i-1].getValue();
+                yPositions.push_back(yPositions[i-1]);
+            } else {
+                yPositions.push_back(stof(temp));
+            }
+            
             }else{
                 //              cout << "[FrameAt:"<<i<< ","<<temp<<endl;
                 yPositions.push_back(stof(temp));
@@ -63,7 +73,12 @@ void CCL_MocapJoint::addUUID(string title,const string uuid){
             string temp = stream["frames"][i].getValue();
             if( temp == "null" || temp.size() == 0){
                 //             cout << "[FrameAt:"<<i<< ","<<temp<<endl;
-                zPositions.push_back(NULL_POINT);
+                if ( i!=0 ){
+                    std::string prev = stream["frames"][i-1].getValue();
+                    zPositions.push_back(zPositions[i-1]);
+                } else {
+                    zPositions.push_back(stof(temp));
+                }
                 
             }else{
                 //              cout << "[FrameAt:"<<i<< ","<<temp<<endl;
@@ -83,6 +98,71 @@ void CCL_MocapJoint::addUUID(string title,const string uuid){
 };
 
 void CCL_MocapJoint::loadPositions(){
+    
+    jointPositions.clear();
+    
+    for( int i = 0 ; i < xPositions.size() ; i++){
+        
+        float x = xPositions[i];
+        
+        if( x == -123456 ){
+            
+            if( i == 0 )
+                
+                x = 0;
+            
+            else
+                
+                x = xPositions[i-1];
+            
+        }
+        
+        float y = yPositions[i];
+        
+        if( y == -123456){
+            
+            if( i == 0 )
+                
+                y = 0;
+            
+            else
+                
+                y = yPositions[i-1];
+            
+        }
+        
+        float z = zPositions[i];
+        
+        if( z == -123456){
+            
+            if( i == 0 )
+                
+                z = 0;
+            
+            else
+                
+                z = zPositions[i-1];
+            
+        }
+        
+        //        vec3 vecter = vec3(xPositions[i], yPositions[i], zPositions[i]);
+        
+        vec3 vecter = vec3(x,y,z);
+        
+        jointPositions.push_back(vecter);
+        
+        //      cout << "["<<jointName<< " at " << i<< "] " << vecter << endl;
+        
+    }
+    
+    std::cout << "added joint " << jointName << ", count:" << jointPositions.size() << std::endl;
+    
+    
+    
+};
+
+/*
+void CCL_MocapJoint::loadPositions(){
     for( int i = 0 ; i < xPositions.size() ; i++){
         vec3 vecter = vec3(xPositions[i], yPositions[i], zPositions[i]);
         jointPositions.push_back(vecter);
@@ -90,3 +170,4 @@ void CCL_MocapJoint::loadPositions(){
     }
     std::cout << "added joint " << jointName << ", count:" << jointPositions.size() << std::endl;
 };
+*/

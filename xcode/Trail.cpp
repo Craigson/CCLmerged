@@ -13,6 +13,49 @@ Trail::Trail(){
 }
 
 Trail::Trail(const glm::vec3& origin)
+
+{
+ 
+    trail = ci::gl::VertBatch( GL_LINE_STRIP );
+    
+    ci::ColorAf defaultColor( 0.9f, 0.9f, 0.9f,0.9f);
+    
+    trail.color( defaultColor );
+    
+   // positions.push_back(origin);
+    
+}
+
+
+
+
+
+void Trail::update(const glm::vec3& pos)
+
+{
+    
+    //positions.push_back(pos);
+    
+    trail.color( ci::ColorAf(0.9f, 0.9f, 0.9f,0.9f) );
+    
+    trail.vertex(pos);
+    
+    trailBatch = ci::gl::Batch::create ( trail , ci::gl::getStockShader( ci::gl::ShaderDef().color() ) );
+    
+    //std::cout << positions.size() << std::endl;
+    
+    
+    
+}
+
+
+
+void Trail::render()
+{
+    trail.draw();
+}
+/*
+Trail::Trail(const glm::vec3& origin)
 {
 //    ci::gl::VertBatch trail( GL_LINE_STRIP );
 //    
@@ -66,3 +109,5 @@ void Trail::render(){
 //    //std::cout << "i'm drawing" << std::endl;
 
 }
+
+*/

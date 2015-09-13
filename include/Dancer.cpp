@@ -20,6 +20,14 @@ Dancer::Dancer(const std::string& fileName, const gl::GlslProgRef& shader)
     //IMPORT ALL JOINT POSITION DATE FROM EXTERNAL JSON FILE
     loadJointData(fileName);
     
+    //INITIALIZE BOOLEANS FOR DANCERS DISPLAY PROPERTIES
+    this->renderMarkers = true;
+    this->renderRibbons = false;
+    this->renderSkeleton = false;
+    this->renderTrails = true;
+    
+ //   cleanData(jointList);
+    
     //CREATE THE SPHERE BATCH USING THE GLOBAL SHADER
     mSphereBatch = gl::Batch::create( geom::Sphere(), shader);
     
@@ -49,17 +57,26 @@ Dancer::Dancer(const std::string& fileName, const gl::GlslProgRef& shader)
     //FINALLY, BUILD THE BATCH, AND MAP THE CUSTOM_0 ATTRIBUTE TO THE "vInstancePosition" GLSL VERTEX ATTRIBUTE
     mSphereBatch = gl::Batch::create( body, shader, { { geom::Attrib::CUSTOM_0, "vInstancePosition" } } );
     
+    handTrail = Trail(initialJointPositions[17]);
+    
+    
 }
 
 int Dancer::getSize(){
     return jointList[0].jointPositions.size();
 }
 
+
+/* --------- LOAD JOINT DATA -----------------*/
+
 void Dancer::loadJointData(const std::string& jsonData )
 {
     //"CCL_JOINT_CCL3_00_skip10.json"
     jointList = ccl::loadMotionCaptureFromJson(ci::app::getAssetPath(jsonData));
 }
+
+
+/*-------------------- UPDATE-------------------*/
 
 
 void Dancer::update(const int& FRAME_COUNT)
@@ -83,7 +100,7 @@ void Dancer::update(const int& FRAME_COUNT)
         
     }
     
-    //REPLACE VEC3s IN VBO BY INCREMENTING THE POINTER
+    //REPLACE VEC3s IN VBO BY INCREMENTING THE POINTER AND SETTING EACH NEW POSITION
     for (int i = 0; i < updatedJointPositions.size(); i++){
         *newPositions++ = updatedJointPositions[i];
     }
@@ -92,8 +109,46 @@ void Dancer::update(const int& FRAME_COUNT)
     mInstanceDataVbo->unmap();
     // std::cout << "position: " << positions[0] << std::endl;
 
+    //UPDATE THE TRAIL POSITION
+    handTrail.update(updatedJointPositions[17]);
+    
+
+        
+    std::cout<< updatedJointPositions[17] << std::endl;
 }
 
 void Dancer::render(){
-    mSphereBatch->drawInstanced( jointList.size() );
+    if(renderMarkers)mSphereBatch->drawInstanced( jointList.size() );
+    if(renderTrails)handTrail.render();
 }
+
+void Dancer::updateTrail(const glm::vec3& updatedPos){
+    handTrail.update(updatedPos);
+}
+
+/*
+
+void cleanData(std::vector<CCL_MocapJoint>& jointList){
+    
+    CCL_MocapJoint * mJoint = jointList;
+    
+    for(std::vector<CCL_MocapJoint>::iterator it = jointList.begin(); it != jointList.end(); ++it){
+        CCL_MocapJoint thisJoint = *it;
+    
+        
+        for (int i = 0; i < joint.jointPositions.size(); i++){
+            if (i != 0){
+                glm::vec3* prev = &joint.jointPositions[i-1];
+                glm::vec3* current = &joint.jointPositions[i];
+                if (current->x == -123456.000){
+                    current = prev;
+                    std::cout << "swapping data" << std::endl;
+                }
+            }
+        }
+
+        
+    }
+}
+
+*/

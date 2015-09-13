@@ -12,6 +12,7 @@
 class Trail {
 public:
     Trail();
+    /*
     Trail(const glm::vec3& origin);
     
     ci::gl::VertBatch trail;
@@ -29,4 +30,19 @@ public:
     glm::vec3 prevPos;
     
     float threshold;
+     */
+    
+    Trail(const glm::vec3& origin);
+    
+    ci::gl::VertBatch trail;
+    
+    std::vector<glm::vec3> positions;
+    
+    ci::ColorA defaultColor;
+    
+    void update(const glm::vec3& pos);
+    
+    void render();
+    
+    ci::gl::BatchRef trailBatch;
 };

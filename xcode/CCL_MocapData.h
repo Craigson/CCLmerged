@@ -9,7 +9,7 @@ namespace ccl
 {
 
 std::vector<CCL_MocapJoint> loadMotionCaptureFromJson(const ci::fs::path &file);
-std::vector<CCL_MocapJoint> loadMotionCaptureFromSite(const ci::Url &url, int skip);
+std::vector<CCL_MocapJoint> loadMotionCaptureFromSite( int skip);
 
 void addUUIDtoJoint(const std::string &grp, const std::string &title, const std::string &uuid, int skip, std::vector<CCL_MocapJoint>& output_joints);
 

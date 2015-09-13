@@ -17,6 +17,7 @@
 		00B9955A1B128DF400A5C623 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995581B128DF400A5C623 /* IOKit.framework */; };
 		00B9955B1B128DF400A5C623 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995591B128DF400A5C623 /* IOSurface.framework */; };
 		446ACB5F1BA5E02200133F12 /* Jzon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 446ACB5D1BA5E02200133F12 /* Jzon.cpp */; };
+		446ACB621BA609F800133F12 /* Trail.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 446ACB601BA609F800133F12 /* Trail.cpp */; };
 		44FF5C9E1B9F396F00CFAA56 /* Dancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44FF5C9C1B9F396F00CFAA56 /* Dancer.cpp */; };
 		44FF5CA31B9F39F000CFAA56 /* CCL_MocapData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44FF5C9F1B9F39F000CFAA56 /* CCL_MocapData.cpp */; };
 		44FF5CA41B9F39F000CFAA56 /* CCL_MocapJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44FF5CA11B9F39F000CFAA56 /* CCL_MocapJoint.cpp */; };
@@ -43,6 +44,8 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		446ACB5D1BA5E02200133F12 /* Jzon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Jzon.cpp; sourceTree = "<group>"; };
 		446ACB5E1BA5E02200133F12 /* Jzon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Jzon.h; sourceTree = "<group>"; };
+		446ACB601BA609F800133F12 /* Trail.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Trail.cpp; sourceTree = "<group>"; };
+		446ACB611BA609F800133F12 /* Trail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trail.h; sourceTree = "<group>"; };
 		44FF5C9C1B9F396F00CFAA56 /* Dancer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Dancer.cpp; path = ../include/Dancer.cpp; sourceTree = "<group>"; };
 		44FF5C9D1B9F396F00CFAA56 /* Dancer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Dancer.h; path = ../include/Dancer.h; sourceTree = "<group>"; };
 		44FF5C9F1B9F39F000CFAA56 /* CCL_MocapData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCL_MocapData.cpp; sourceTree = "<group>"; };
@@ -92,7 +95,7 @@
 			children = (
 				CEDEAEC85EF2469AABF6FFD1 /* CCLmergedApp.cpp */,
 				44FF5C9C1B9F396F00CFAA56 /* Dancer.cpp */,
-				446ACB5C1BA5D34B00133F12 /* unused */,
+				446ACB601BA609F800133F12 /* Trail.cpp */,
 				44FF5CA51B9F39F900CFAA56 /* Data Handlers */,
 			);
 			name = Source;
@@ -152,6 +155,7 @@
 			children = (
 				44FF5C9D1B9F396F00CFAA56 /* Dancer.h */,
 				16D4336F6CDA46108198A4D0 /* Resources.h */,
+				446ACB611BA609F800133F12 /* Trail.h */,
 				EE861B37FE60418DB65C6187 /* CCLmerged_Prefix.pch */,
 			);
 			name = Headers;
@@ -173,13 +177,6 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		446ACB5C1BA5D34B00133F12 /* unused */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = unused;
 			sourceTree = "<group>";
 		};
 		44FF5CA51B9F39F900CFAA56 /* Data Handlers */ = {
@@ -259,6 +256,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				446ACB621BA609F800133F12 /* Trail.cpp in Sources */,
 				44FF5CA41B9F39F000CFAA56 /* CCL_MocapJoint.cpp in Sources */,
 				44FF5C9E1B9F396F00CFAA56 /* Dancer.cpp in Sources */,
 				44FF5CA31B9F39F000CFAA56 /* CCL_MocapData.cpp in Sources */,
