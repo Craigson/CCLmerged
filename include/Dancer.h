@@ -28,8 +28,8 @@ public:
     int getSize();
     
   //  void cleanData(std::vector<CCL_MocapJoint>& jointList);
-    void updateTrail(const glm::vec3& updatedPos);
-    void renderTrail();
+    void updateTrails(const std::vector<glm::vec3>& updatedPositions);
+    void renderTrails();
     
 private:
     
@@ -37,13 +37,15 @@ private:
     std::vector<glm::vec3>          initialJointPositions;  //POSITION OF EACH JOINT AT FRAME 0
     std::vector<glm::vec3>          updatedJointPositions;  //CONTAINER FOR EACH UPDATED JOINT POSITION
     
+    std::list<Trail> allTrails;
+    
     //MARKERS
     gl::VboMeshRef      body;
     gl::BatchRef        mSphereBatch;
     gl::VboRef			mInstanceDataVbo;
     
     //DISPLAY PROPERTIES
-   bool renderMarkers, renderSkeleton, renderTrails, renderRibbons;
+   bool showMarkers, showSkeleton, showTrails, showRibbons;
     
     //  Skeleton skeleton;
     Trail handTrail;

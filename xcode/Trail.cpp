@@ -35,7 +35,7 @@ void Trail::update(const glm::vec3& pos)
 
 {
     
-    trail.color( ci::ColorAf(0.9f, 0.9f, 0.9f,0.9f) );
+    trail.color( ci::ColorAf(0.9f, 0.9f, 0.9f,0.1f) );
     
     trail.vertex(pos);
     

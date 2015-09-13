@@ -21,10 +21,10 @@ Dancer::Dancer(const std::string& fileName, const gl::GlslProgRef& shader)
     loadJointData(fileName);
     
     //INITIALIZE BOOLEANS FOR DANCERS DISPLAY PROPERTIES
-    this->renderMarkers = true;
-    this->renderRibbons = false;
-    this->renderSkeleton = false;
-    this->renderTrails = true;
+    this->showMarkers = true;
+    this->showRibbons = false;
+    this->showSkeleton = false;
+    this->showTrails = true;
     
  //   cleanData(jointList);
     
@@ -59,6 +59,9 @@ Dancer::Dancer(const std::string& fileName, const gl::GlslProgRef& shader)
     
     handTrail = Trail(initialJointPositions[17]);
     
+    for (int i = 0; i < initialJointPositions.size(); i++){
+        allTrails.push_back(Trail(initialJointPositions[i]));
+    }
     
 }
 
@@ -71,7 +74,7 @@ int Dancer::getSize(){
 
 void Dancer::loadJointData(const std::string& jsonData )
 {
-    //"CCL_JOINT_CCL3_00_skip10.json"
+    //LOAD THE MOTION CAPTURE DATA FROM A JSON FILE BY PASSING IN THE FILE NAME (STORED IN ASSETS) AS A STRING
     jointList = ccl::loadMotionCaptureFromJson(ci::app::getAssetPath(jsonData));
 }
 
@@ -95,8 +98,6 @@ void Dancer::update(const int& FRAME_COUNT)
         
         updatedJointPositions.push_back(newPos);
         
-    //    std::cout<< updatedJointPositions.size() << std::endl;
-       //
         
     }
     
@@ -110,7 +111,8 @@ void Dancer::update(const int& FRAME_COUNT)
     // std::cout << "position: " << positions[0] << std::endl;
 
     //UPDATE THE TRAIL POSITION
-    handTrail.update(updatedJointPositions[17]);
+//    handTrail.update(updatedJointPositions[17]);
+    updateTrails(updatedJointPositions);
     
 
         
@@ -118,37 +120,35 @@ void Dancer::update(const int& FRAME_COUNT)
 }
 
 void Dancer::render(){
-    if(renderMarkers)mSphereBatch->drawInstanced( jointList.size() );
-    if(renderTrails)handTrail.render();
+    if(showMarkers)mSphereBatch->drawInstanced( jointList.size() );
+    if(showTrails)renderTrails();
 }
 
-void Dancer::updateTrail(const glm::vec3& updatedPos){
-    handTrail.update(updatedPos);
-}
 
-/*
 
-void cleanData(std::vector<CCL_MocapJoint>& jointList){
+//------------------- UPDATE TRAILS --------------------
+
+void Dancer::updateTrails(const std::vector<glm::vec3>& updatedPositions)
+{
     
-    CCL_MocapJoint * mJoint = jointList;
+    std::list<Trail>::iterator iter = allTrails.begin();
     
-    for(std::vector<CCL_MocapJoint>::iterator it = jointList.begin(); it != jointList.end(); ++it){
-        CCL_MocapJoint thisJoint = *it;
-    
+    while (iter != allTrails.end()){
         
-        for (int i = 0; i < joint.jointPositions.size(); i++){
-            if (i != 0){
-                glm::vec3* prev = &joint.jointPositions[i-1];
-                glm::vec3* current = &joint.jointPositions[i];
-                if (current->x == -123456.000){
-                    current = prev;
-                    std::cout << "swapping data" << std::endl;
-                }
-            }
+        for (int i = 0; i < updatedPositions.size(); i++){
+            iter->update(updatedPositions[i]);
+            iter++;
         }
+    }
 
-        
+}
+
+//---------------------- RENDER TRAILS ------------------
+
+void Dancer::renderTrails(){
+    for (std::list<Trail>::iterator it = allTrails.begin(); it != allTrails.end(); ++it){
+        it->render();
     }
 }
 
-*/
+
