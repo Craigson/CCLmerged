@@ -3,13 +3,45 @@
 #include "cinder/gl/gl.h"
 #include "cinder/CameraUi.h"
 #include "Dancer.h"
+#include "CinderImGui.h"
 
 using namespace ci;
 using namespace ci::app;
 using namespace std;
 
 int FRAME_COUNT;
-int TOTAL_FRAMES;
+int TOTAL_FRAMES = 6400;
+BOOL paused;
+
+//ADD BACKGROUND COLOR CHANGE
+//ADD COLOR FOR EACH DANCER
+//SHOW FLOOR
+
+/********** DATA ____ GUI ***********************/
+int CURRENT_DATA_SET = 0;
+int LOADED_DATA_SET = 0;
+
+bool isDancer1 = true;
+int fpsDancer1 = 24;
+
+bool isDancer2 = true;
+int fpsDancer2 = 60;
+
+bool isDancer3 = true;
+int fpsDancer3 = 60;
+
+bool isDancer4 = true;
+int fpsDancer4 = 60;
+
+bool isDancer5 = true;
+int fpsDancer5 = 30;
+
+bool isDancer6 = true;
+int fpsDancer6 = 30;
+
+int CinderFrameReate = 60;
+
+/********** DATA ____ GUI ***********************/
 
 class CCLmergedApp : public App {
   public:
@@ -22,6 +54,8 @@ class CCLmergedApp : public App {
     void setupEnviron( int xSize, int zSize, int spacing );     //METHOD FOR SETTING UP THE 3D ENVIRONMENT
     void renderScene();                                         //METHOD FOR RENDERING THE 3D ENVIRONMENT
     void setupShader();
+    
+    void createDancers();
     
     //GLOBAL SHADER
     gl::GlslProgRef		mGlsl;
@@ -36,12 +70,15 @@ class CCLmergedApp : public App {
     int                 mCurrentFrame = 0;
     
     //CREATE A SINGLE DANCER OBJECT (TEST)
-    Dancer dancer1;
+   // Dancer dancer1;
+    
+    std::vector<Dancer> dancers;
+    
 };
 
 void CCLmergedApp::setup()
 {
-    setFrameRate(12);
+    setFrameRate(60);
     
     //SETUP THE 3D ENVIRONMENT
     setupEnviron( 5000, 5000, 100 );
@@ -50,13 +87,26 @@ void CCLmergedApp::setup()
     
     
     //mCamera.setEyePoint(vec3(0,200,650));
+    
+    //dancer1 = Dancer("CCL_JOINT_CCL3_00_skip10.json", mGlsl);
+    
+    createDancers();
+    
+   gl::enableDepthWrite();
+    gl::enableDepthRead();
+    gl::enableAlphaBlending();
+
+    /************* UI *************/
+    
+    // THIS HAS BE DONE BEFORE "CameraUI" //
+   ui::initialize();
+    
+    /************* UI *************/
+    
+    
     mCamUi = CameraUi( &mCamera, getWindow() );
     
-    dancer1 = Dancer("CCL_JOINT_CCL3_00_skip10.json", mGlsl);
-    
-    gl::enableDepthWrite();
-    gl::enableDepthRead();
-
+    //    mCamUi.disconnect();
 }
 
 void CCLmergedApp::mouseDown( MouseEvent event )
@@ -80,12 +130,37 @@ void CCLmergedApp::mouseDrag( MouseEvent event )
 
 void CCLmergedApp::update()
 {
-    TOTAL_FRAMES = dancer1.getSize();
+ 
+    /************* UI *************/
+    if( paused)
+        return;
+    /************* UI *************/
     
-  //  std::cout<< dancer1.getSize() << std::endl;
+    if( isDancer1 ){
+        dancers[0].update(FRAME_COUNT/(CinderFrameReate/fpsDancer1));
+    }
     
-    dancer1.update(FRAME_COUNT);
+    if( isDancer2 ){
+        dancers[1].update(FRAME_COUNT/(CinderFrameReate/fpsDancer1));
+    }
     
+    if( isDancer3 ){
+        dancers[2].update(FRAME_COUNT/(CinderFrameReate/fpsDancer1));
+    }
+    
+    if( isDancer4 ){
+        dancers[3].update(FRAME_COUNT/(CinderFrameReate/fpsDancer1));
+    }
+    
+    if( isDancer5 ){
+        dancers[4].update(FRAME_COUNT/(CinderFrameReate/fpsDancer1));
+    }
+    
+    if( isDancer6 ){
+        dancers[5].update(FRAME_COUNT/(CinderFrameReate/fpsDancer1));
+    }
+    
+
 //    //MANUALLY INCREMENT THE FRAME, IF THE FRAME_COUNT EXCEEDS TOTAL FRAMES, RESET THE COUNTER
     if (FRAME_COUNT < TOTAL_FRAMES)
     {
@@ -93,6 +168,7 @@ void CCLmergedApp::update()
     } else {
         FRAME_COUNT = 0;
     }
+   // std::cout << getAverageFps() << std::endl;
 }
 
 
@@ -102,14 +178,12 @@ void CCLmergedApp::update()
 
 void CCLmergedApp::draw()
 {
-    
     gl::clear(Color(0.05f,0.05f,0.05f) );
-
     gl::setMatrices( mCamera );
-    
     renderScene();
-    
-    dancer1.render();
+    for (int i =0; i < dancers.size(); i++){
+        dancers[i].render();
+    }
 }
 
 //------------------- SETUP THE ENVIRONMENT / GRID -----------------------
@@ -162,6 +236,17 @@ void CCLmergedApp::renderScene()
    // gl::popMatrices();
 }
 
+//---------------------- CREATE DANCERS ----------------------
+
+void CCLmergedApp::createDancers()
+{
+    dancers.push_back(Dancer("CCL_JOINT_CCL3_00_skip10.json", mGlsl));
+    dancers.push_back(Dancer("CCL_JOINT_CCL4_00_skip4.json", mGlsl));
+    dancers.push_back(Dancer("CCL_JOINT_CCL4_01_skip4.json", mGlsl));
+    dancers.push_back(Dancer("CCL_JOINT_CCL4_02_skip4.json", mGlsl));
+    dancers.push_back(Dancer("CCL_JOINT_CCL4_03_skip8.json", mGlsl));
+    dancers.push_back(Dancer("CCL_JOINT_CCL4_04_skip8.json", mGlsl));
+}
 
 
 

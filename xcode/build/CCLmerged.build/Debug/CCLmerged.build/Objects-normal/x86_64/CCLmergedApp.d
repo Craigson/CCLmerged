@@ -427,4 +427,7 @@ dependencies: \
   /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLmerged/xcode/CCL_MocapData.h \
   /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLmerged/xcode/Jzon.h \
   ../include/Ribbon.h \
-  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLmerged/xcode/Trail.h
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLmerged/xcode/Trail.h \
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLmerged/xcode/Cinder-ImGui/include/CinderImGui.h \
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLmerged/xcode/Cinder-ImGui/lib/imgui/imgui.h \
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLmerged/xcode/Cinder-ImGui/lib/imgui/imconfig.h

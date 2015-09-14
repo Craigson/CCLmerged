@@ -24,9 +24,7 @@ Dancer::Dancer(const std::string& fileName, const gl::GlslProgRef& shader)
     this->showMarkers = true;
     this->showRibbons = false;
     this->showSkeleton = false;
-    this->showTrails = true;
-    
- //   cleanData(jointList);
+    this->showTrails = false;
     
     //CREATE THE SPHERE BATCH USING THE GLOBAL SHADER
     mSphereBatch = gl::Batch::create( geom::Sphere(), shader);
@@ -36,11 +34,13 @@ Dancer::Dancer(const std::string& fileName, const gl::GlslProgRef& shader)
     
     // CREATE THE SPHERES AT THE INITIAL JOINT LOCATIONS
     for ( int i = 0; i < jointList.size(); ++i ) {
-        float instanceX = jointList[i].jointPositions[0].x;
-        float instanceY = jointList[i].jointPositions[0].y;
-        float instanceZ = jointList[i].jointPositions[0].z;
-        
-    initialJointPositions.push_back( vec3( instanceX, instanceY, instanceZ));
+     //   if (jointList[i].valid){
+            float instanceX = jointList[i].jointPositions[0].x;
+            float instanceY = jointList[i].jointPositions[0].y;
+            float instanceZ = jointList[i].jointPositions[0].z;
+            
+            initialJointPositions.push_back( vec3( instanceX, instanceY, instanceZ));
+      //  }
     }
     
     //CREATE THE VBO THAT WILL CONTAIN PER-INSTANCE (RATHER THAN PER VERTEX) DATA
@@ -65,6 +65,7 @@ Dancer::Dancer(const std::string& fileName, const gl::GlslProgRef& shader)
     
 }
 
+//ACCESSOR FUNCTION RETURNS TO THE TOTAL NUMBER OF FRAMES IN THE JOINTLIST
 int Dancer::getSize(){
     return jointList[0].jointPositions.size();
 }
@@ -86,18 +87,21 @@ void Dancer::update(const int& FRAME_COUNT)
 {
     updatedJointPositions.clear();
     
+    int frameRounded = FRAME_COUNT % getSize();
+    
     glm::vec3 *newPositions = (glm::vec3*)mInstanceDataVbo->mapReplace();
     
     for( int i = 0; i < jointList.size(); ++i ) {
-        
-        float instanceX = jointList[i].jointPositions[FRAME_COUNT].x;
-        float instanceY = jointList[i].jointPositions[FRAME_COUNT].y;
-        float instanceZ = jointList[i].jointPositions[FRAME_COUNT].z;
-        
-        vec3 newPos(vec3(instanceX,instanceY, instanceZ)); //CREATE A NEW VEC3 FOR UPDATING THE VBO
-        
-        updatedJointPositions.push_back(newPos);
-        
+
+        //if (jointList[i].valid){
+            float instanceX = jointList[i].jointPositions[frameRounded].x;
+            float instanceY = jointList[i].jointPositions[frameRounded].y;
+            float instanceZ = jointList[i].jointPositions[frameRounded].z;
+            
+            vec3 newPos(vec3(instanceX,instanceY, instanceZ)); //CREATE A NEW VEC3 FOR UPDATING THE VBO
+            
+            updatedJointPositions.push_back(newPos);
+        //}
         
     }
     
@@ -106,21 +110,15 @@ void Dancer::update(const int& FRAME_COUNT)
         *newPositions++ = updatedJointPositions[i];
     }
 
-    
     mInstanceDataVbo->unmap();
-    // std::cout << "position: " << positions[0] << std::endl;
 
     //UPDATE THE TRAIL POSITION
-//    handTrail.update(updatedJointPositions[17]);
     updateTrails(updatedJointPositions);
-    
 
-        
-    std::cout<< updatedJointPositions[17] << std::endl;
 }
 
 void Dancer::render(){
-    if(showMarkers)mSphereBatch->drawInstanced( jointList.size() );
+    if(showMarkers)mSphereBatch->drawInstanced( initialJointPositions.size() );
     if(showTrails)renderTrails();
 }
 
@@ -130,17 +128,13 @@ void Dancer::render(){
 
 void Dancer::updateTrails(const std::vector<glm::vec3>& updatedPositions)
 {
-    
     std::list<Trail>::iterator iter = allTrails.begin();
-    
     while (iter != allTrails.end()){
-        
         for (int i = 0; i < updatedPositions.size(); i++){
             iter->update(updatedPositions[i]);
             iter++;
         }
     }
-
 }
 
 //---------------------- RENDER TRAILS ------------------
@@ -150,5 +144,7 @@ void Dancer::renderTrails(){
         it->render();
     }
 }
+
+
 
 

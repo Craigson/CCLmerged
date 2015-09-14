@@ -10,15 +10,27 @@
 	<string>CCLmerged</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>0C95EEA8FF0C0E695973CB8EA4E7E70E385D606F</key>
+		<string>https://github.com/ocornut/imgui.git</string>
+		<key>2DEE13513E787DA04AD2C0CB3D93F067C441B880</key>
+		<string>https://github.com/simongeilfus/Cinder-ImGui.git</string>
 		<key>A325891D5735F2621A5BCACAEBA4EA278CF84787</key>
 		<string>https://github.com/Craigson/CCLmerged.git</string>
+		<key>AD4B458D0D225ED63FAE0155615993B7D3ECE020</key>
+		<string>https://github.com/cinder/Cinder.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>xcode/CCLmerged.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>0C95EEA8FF0C0E695973CB8EA4E7E70E385D606F</key>
+		<string>../../../xcode/Cinder-ImGui/lib/imgui/</string>
+		<key>2DEE13513E787DA04AD2C0CB3D93F067C441B880</key>
+		<string>../../../xcode/Cinder-ImGui/</string>
 		<key>A325891D5735F2621A5BCACAEBA4EA278CF84787</key>
 		<string>../../..</string>
+		<key>AD4B458D0D225ED63FAE0155615993B7D3ECE020</key>
+		<string>../../../../../Cinder</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/Craigson/CCLmerged.git</string>
@@ -35,6 +47,30 @@
 			<string>A325891D5735F2621A5BCACAEBA4EA278CF84787</string>
 			<key>IDESourceControlWCCName</key>
 			<string>CCLmerged</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>AD4B458D0D225ED63FAE0155615993B7D3ECE020</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Cinder</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>2DEE13513E787DA04AD2C0CB3D93F067C441B880</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Cinder-ImGui</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>0C95EEA8FF0C0E695973CB8EA4E7E70E385D606F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>imgui</string>
 		</dict>
 	</array>
 </dict>

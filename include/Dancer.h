@@ -31,6 +31,8 @@ public:
     void updateTrails(const std::vector<glm::vec3>& updatedPositions);
     void renderTrails();
     
+    int getDancerFPS();
+    
 private:
     
     std::vector<CCL_MocapJoint>     jointList;  //GLOBAL CONTAINER TO HOLD THE CCL_JOINT OBJECTS

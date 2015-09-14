@@ -15,6 +15,8 @@ CCL_MocapJoint::CCL_MocapJoint( string jName, int skip){
     xUpdated = false;
     yUpdated = false;
     zUpdated = false;
+    valid = false;
+
 };
 
 void CCL_MocapJoint::addUUID(string title,const string uuid){
@@ -97,23 +99,46 @@ void CCL_MocapJoint::addUUID(string title,const string uuid){
 
 };
 
+
+
+
 void CCL_MocapJoint::loadPositions(){
     
     jointPositions.clear();
     
-    for( int i = 0 ; i < xPositions.size() ; i++){
+    int i = 0;
+    
+    for( i = 0 ; i < xPositions.size() ; i++){
         
         float x = xPositions[i];
         
         if( x == -123456 ){
             
-            if( i == 0 )
+            if( i == 0 ){
                 
-                x = 0;
-            
-            else
+                x=0;
                 
-                x = xPositions[i-1];
+                for( int j = i; j < xPositions.size(); j++){
+                    
+                    if( xPositions[j] != -123456){
+                        
+                        x = xPositions[j];
+                        
+                        if( j == xPositions.size()-1){
+                            
+                            x = 0;
+                            
+                        }
+                        
+                        break;
+                        
+                    }
+                    
+                }
+                
+            }else
+                
+                x = jointPositions[jointPositions.size()-1].x;
             
         }
         
@@ -121,13 +146,31 @@ void CCL_MocapJoint::loadPositions(){
         
         if( y == -123456){
             
-            if( i == 0 )
+            if( i == 0 ){
                 
                 y = 0;
-            
-            else
                 
-                y = yPositions[i-1];
+                for( int j = i; j < yPositions.size(); j++){
+                    
+                    if( yPositions[j] != -123456){
+                        
+                        y = yPositions[j];
+                        
+                        if( j == yPositions.size()-1){
+                            
+                            y = 0;
+                            
+                        }
+                        
+                        break;
+                        
+                    }
+                    
+                }
+                
+            }else
+                
+                y = jointPositions[jointPositions.size()-1].y;
             
         }
         
@@ -135,39 +178,61 @@ void CCL_MocapJoint::loadPositions(){
         
         if( z == -123456){
             
-            if( i == 0 )
+            if( i == 0 ){
                 
                 z = 0;
-            
-            else
                 
-                z = zPositions[i-1];
+                for( int j = i; j < zPositions.size(); j++){
+                    
+                    if( zPositions[j] != -123456){
+                        
+                        z = zPositions[j];
+                        
+                        if( j == zPositions.size()-1){
+                            
+                            z = 0;
+                            
+                        }
+                        
+                        break;
+                        
+                    }
+                    
+                    
+                    
+                }
+                
+                
+                
+            }else
+                
+                z = jointPositions[jointPositions.size()-1].z;
             
         }
         
-        //        vec3 vecter = vec3(xPositions[i], yPositions[i], zPositions[i]);
+        
         
         vec3 vecter = vec3(x,y,z);
         
+        if( x !=0 || y != 0 || z != 0)
+            
+            valid = true;
+        
+        
+        
         jointPositions.push_back(vecter);
         
         //      cout << "["<<jointName<< " at " << i<< "] " << vecter << endl;
         
     }
     
-    std::cout << "added joint " << jointName << ", count:" << jointPositions.size() << std::endl;
+    if( !valid )
+        
+        
+        std::cout << "added joint " << jointName << ", count:" << jointPositions.size() << std::endl;
+    
+    
     
     
     
 };
-
-/*
-void CCL_MocapJoint::loadPositions(){
-    for( int i = 0 ; i < xPositions.size() ; i++){
-        vec3 vecter = vec3(xPositions[i], yPositions[i], zPositions[i]);
-        jointPositions.push_back(vecter);
-        //      cout << "["<<jointName<< " at " << i<< "] " << vecter << endl;
-    }
-    std::cout << "added joint " << jointName << ", count:" << jointPositions.size() << std::endl;
-};
-*/

@@ -21,6 +21,7 @@ public:
     vector<float> xPositions;
     vector<float> yPositions;
     vector<float> zPositions;
+    bool valid;
     
 private:
     
