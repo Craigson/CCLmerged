@@ -21,23 +21,9 @@ BOOL paused;
 int CURRENT_DATA_SET = 0;
 int LOADED_DATA_SET = 0;
 
-bool isDancer1 = true;
-int fpsDancer1 = 24;
 
-bool isDancer2 = true;
-int fpsDancer2 = 60;
-
-bool isDancer3 = true;
-int fpsDancer3 = 60;
-
-bool isDancer4 = true;
-int fpsDancer4 = 60;
-
-bool isDancer5 = true;
-int fpsDancer5 = 30;
-
-bool isDancer6 = true;
-int fpsDancer6 = 30;
+bool showDancers[] = {true, false, false, false,false,false};
+int dancerFPS[] = {24,60,60,60,30,30};
 
 int CinderFrameReate = 60;
 
@@ -57,9 +43,11 @@ class CCLmergedApp : public App {
     
     void createDancers();
     
+    void drawGUI();
+    
     //GLOBAL SHADER
     gl::GlslProgRef		mGlsl;
-    gl::GlslProgRef     solidShader;
+    //gl::GlslProgRef     solidShader;
     
     //CREATE A VERTEX BATCH FOR THE FLOOR MESH
     gl::VertBatchRef	mGridMesh;
@@ -85,10 +73,32 @@ void CCLmergedApp::setup()
     
     setupShader();
     
+    for (int i = 0; i < dancers.size(); i++){
+        showDancers[i] = false;
+    }
+    
+    showDancers[0] = true;
+    
+    
+    //bool isDancer1 = true;
+    dancerFPS[0] = 24;
+    
+    //bool isDancer2 = true;
+    dancerFPS[1] = 60;
+    
+    //bool isDancer3 = true;
+    dancerFPS[2] = 60;
+    
+    //bool isDancer4 = true;
+    dancerFPS[3] = 60;
+    
+    //bool isDancer5 = true;
+    dancerFPS[4] = 30;
+    
+    //bool isDancer6 = true;
+    dancerFPS[5] = 30;
     
     //mCamera.setEyePoint(vec3(0,200,650));
-    
-    //dancer1 = Dancer("CCL_JOINT_CCL3_00_skip10.json", mGlsl);
     
     createDancers();
     
@@ -107,6 +117,8 @@ void CCLmergedApp::setup()
     mCamUi = CameraUi( &mCamera, getWindow() );
     
     //    mCamUi.disconnect();
+    
+    std::cout << "end of setup" << std::endl;
 }
 
 void CCLmergedApp::mouseDown( MouseEvent event )
@@ -136,30 +148,9 @@ void CCLmergedApp::update()
         return;
     /************* UI *************/
     
-    if( isDancer1 ){
-        dancers[0].update(FRAME_COUNT/(CinderFrameReate/fpsDancer1));
+    for (int i = 0; i < dancers.size(); i++){
+        if (showDancers[i])dancers[i].update(FRAME_COUNT/(CinderFrameReate/dancerFPS[i]));
     }
-    
-    if( isDancer2 ){
-        dancers[1].update(FRAME_COUNT/(CinderFrameReate/fpsDancer1));
-    }
-    
-    if( isDancer3 ){
-        dancers[2].update(FRAME_COUNT/(CinderFrameReate/fpsDancer1));
-    }
-    
-    if( isDancer4 ){
-        dancers[3].update(FRAME_COUNT/(CinderFrameReate/fpsDancer1));
-    }
-    
-    if( isDancer5 ){
-        dancers[4].update(FRAME_COUNT/(CinderFrameReate/fpsDancer1));
-    }
-    
-    if( isDancer6 ){
-        dancers[5].update(FRAME_COUNT/(CinderFrameReate/fpsDancer1));
-    }
-    
 
 //    //MANUALLY INCREMENT THE FRAME, IF THE FRAME_COUNT EXCEEDS TOTAL FRAMES, RESET THE COUNTER
     if (FRAME_COUNT < TOTAL_FRAMES)
@@ -168,7 +159,7 @@ void CCLmergedApp::update()
     } else {
         FRAME_COUNT = 0;
     }
-   // std::cout << getAverageFps() << std::endl;
+    std::cout << getAverageFps() << std::endl;
 }
 
 
@@ -181,8 +172,11 @@ void CCLmergedApp::draw()
     gl::clear(Color(0.05f,0.05f,0.05f) );
     gl::setMatrices( mCamera );
     renderScene();
+    drawGUI();
+
     for (int i =0; i < dancers.size(); i++){
-        dancers[i].render();
+        if( showDancers[i])
+            dancers[i].render();
     }
 }
 
@@ -265,3 +259,49 @@ CINDER_APP( CCLmergedApp, RendererGl(RendererGl::Options().msaa( 16 ) ), [&]( Ap
     //settings->setFullScreen();
     
 } )
+
+void CCLmergedApp::drawGUI()
+{
+    
+    /************* UI *************/
+    
+    ui::InputInt("FPS", &CinderFrameReate);
+    setFrameRate(CinderFrameReate);
+    
+    if( ui::Button("PLAY") ){
+        paused = false;
+    }
+    if( ui::Button("PAUSE") ){
+        paused = true;
+    }
+    ui::SliderInt("PROGRESS", &FRAME_COUNT, 0, TOTAL_FRAMES);
+    
+    /********** DATA ____ GUI ***********************/
+    
+    vector<std::string> dataVector = {"CCL_JOINT_CCL3_00_skip10.json",
+        "CCL_JOINT_CCL4_00_skip4.json",
+        "CCL_JOINT_CCL4_01_skip4.json",
+        "CCL_JOINT_CCL4_02_skip4.json",
+        "CCL_JOINT_CCL4_03_skip8.json",
+        "CCL_JOINT_CCL4_04_skip8.json"};
+    
+    ui::Checkbox("Dancer1", &showDancers[0]);
+    ui::InputInt("D1 FPS", &dancerFPS[0]);
+    
+    ui::Checkbox("Dancer2", &showDancers[1]);
+    ui::InputInt("D2 FPS", &dancerFPS[1]);
+    
+    ui::Checkbox("Dancer3", &showDancers[2]);
+    ui::InputInt("D3 FPS", &dancerFPS[2]);
+    
+    ui::Checkbox("Dancer4", &showDancers[3]);
+    ui::InputInt("D4 FPS", &dancerFPS[3]);
+    
+    ui::Checkbox("Dancer5", &showDancers[4]);
+    ui::InputInt("D5 FPS", &dancerFPS[4]);
+    
+    ui::Checkbox("Dancer6", &showDancers[5]);
+    ui::InputInt("D6 FPS", &dancerFPS[5]);
+    
+}
+

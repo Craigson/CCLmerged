@@ -428,6 +428,6 @@ dependencies: \
   /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLmerged/xcode/Jzon.h \
   ../include/Ribbon.h \
   /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLmerged/xcode/Trail.h \
-  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLmerged/xcode/Cinder-ImGui/include/CinderImGui.h \
-  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLmerged/xcode/Cinder-ImGui/lib/imgui/imgui.h \
-  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLmerged/xcode/Cinder-ImGui/lib/imgui/imconfig.h
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLmerged/xcode/include/CinderImGui.h \
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLmerged/xcode/lib/imgui/imgui.h \
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLmerged/xcode/lib/imgui/imconfig.h

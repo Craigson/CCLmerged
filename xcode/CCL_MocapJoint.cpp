@@ -229,7 +229,7 @@ void CCL_MocapJoint::loadPositions(){
     if( !valid )
         
         
-        std::cout << "added joint " << jointName << ", count:" << jointPositions.size() << std::endl;
+        std::cout << "ignore joint " << jointName << ", count:" << jointPositions.size() << std::endl;
     
     
     

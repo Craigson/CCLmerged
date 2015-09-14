@@ -24,7 +24,7 @@ Dancer::Dancer(const std::string& fileName, const gl::GlslProgRef& shader)
     this->showMarkers = true;
     this->showRibbons = false;
     this->showSkeleton = false;
-    this->showTrails = false;
+    this->showTrails = true;
     
     //CREATE THE SPHERE BATCH USING THE GLOBAL SHADER
     mSphereBatch = gl::Batch::create( geom::Sphere(), shader);
@@ -34,13 +34,13 @@ Dancer::Dancer(const std::string& fileName, const gl::GlslProgRef& shader)
     
     // CREATE THE SPHERES AT THE INITIAL JOINT LOCATIONS
     for ( int i = 0; i < jointList.size(); ++i ) {
-     //   if (jointList[i].valid){
+        if (jointList[i].valid){
             float instanceX = jointList[i].jointPositions[0].x;
             float instanceY = jointList[i].jointPositions[0].y;
             float instanceZ = jointList[i].jointPositions[0].z;
             
             initialJointPositions.push_back( vec3( instanceX, instanceY, instanceZ));
-      //  }
+        }
     }
     
     //CREATE THE VBO THAT WILL CONTAIN PER-INSTANCE (RATHER THAN PER VERTEX) DATA
@@ -93,7 +93,7 @@ void Dancer::update(const int& FRAME_COUNT)
     
     for( int i = 0; i < jointList.size(); ++i ) {
 
-        //if (jointList[i].valid){
+        if (jointList[i].valid){
             float instanceX = jointList[i].jointPositions[frameRounded].x;
             float instanceY = jointList[i].jointPositions[frameRounded].y;
             float instanceZ = jointList[i].jointPositions[frameRounded].z;
@@ -101,7 +101,7 @@ void Dancer::update(const int& FRAME_COUNT)
             vec3 newPos(vec3(instanceX,instanceY, instanceZ)); //CREATE A NEW VEC3 FOR UPDATING THE VBO
             
             updatedJointPositions.push_back(newPos);
-        //}
+        }
         
     }
     

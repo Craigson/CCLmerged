@@ -53,21 +53,23 @@ std::vector<CCL_MocapJoint> loadMotionCaptureFromJson(const ci::fs::path &file)
 
     //  cout << "JOINT NAME:"<<name<<endl;
       CCL_MocapJoint cclJoint = CCL_MocapJoint(name,10);
+
       cclJoint.xPositions = xPosVec;
       cclJoint.yPositions = yPosVec;
       cclJoint.zPositions = zPosVec;
       cclJoint.loadPositions();
 
+
       mJoints.push_back(cclJoint);
 
   }
-
+/*
   for( int i  = 0 ; i < 10 ; i++) {
       CCL_MocapJoint jointt = mJoints[i];
       for( int j = 0 ; j < 3 ; j++){
           cout << "[" << jointt.jointName << "] (" << jointt.jointPositions[j].x << "," <<jointt.jointPositions[j].y << ","<< jointt.jointPositions[j].z <<")"<< endl;
       }
-  }
+  }*/
 
   return mJoints;
 };
